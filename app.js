@@ -1,5 +1,5 @@
 //api key variable and base url to TMDB
-const theKey = "11e5987bce6cf2fdee31f834ddb0545f";
+const theKey = "to be added";
 const API_URL = "https://api.themoviedb.org/3";
 
 //3 swipers w/ unique ids
