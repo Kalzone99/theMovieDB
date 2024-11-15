@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <link rel="stylesheet" href="./style.css" />
+    
+    <title>Movie Finder</title>
+  </head>
+  <body>
+    <!--modal for the full page grey-out-->
+    <div class="modal">
+       
+      <!-- pop up window for the login-->
+      <div id="modal_login">
+        <div class="modalContainer">
+          <div id="close" class="close"></div>
+          <div class="modButtons">
+            <button class="signupButton">SIGNUP</button>
+            <button class="loginButton">LOGIN</button>
+          </div>
+          <div class="inputModal">
+            <input type="text" id="username" placeholder="username">
+            <input type="password" id="password" placeholder="password">
+            <div class="checkBox"><input type="checkbox" id="checkbox"><p>Remember me</p></div>
+          </div>
+          <button class="loginButton" id="longLogin">LOGIN</button>
+          <div id="links">
+          <a href="" id="forgotten">I forgot my password</a>
+          <div class="member">
+          <p>Not a member yet?</p><a href="" id="signupLink">Sign up</a>
+        </div>
+      </div>
+        </div> 
+
+      </div>
+      <!-- pop up window for the movie info-->
+      <div id="modal_info">
+        
+        <div class="containerInfo">
+          <div id="close_2" class="close"></div>
+          <div id="imgInfo">
+            <img id="imgInfoPoster" src="./ressources/Rectangle 2.png" alt="">
+          </div>
+          <div class="containerText">
+            <h2 id="modalInfoTitle">Title</h2>  
+            <h3 id="modalInfoRelease">1980</h3>
+            <div id="modalInfoRating">
+              <div class="redStar"></div>
+              <h2 id="rateModal">8.2</h2>
+            </div>
+            <h3 id="modalGenre">Drama</h3>
+            <p id="synopsis">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Temporibus eligendi ipsa consectetur perferendis? Repudiandae minima quas error, adipisci est quasi at consequatur temporibus odit in deserunt rerum dolore vero perspiciatis porro perferendis sint. Eum voluptatum distinctio repellendus quidem cupiditate repudiandae illo culpa velit quasi, esse assumenda, perferendis obcaecati tenetur neque aliquam qui ducimus placeat quas quam atque ipsum accusamus? Laudantium.</p>
+            <div id="modalCast">
+              <h3>Cast: </h3>
+              <div id="castFetch">
+                <p id="castFetchResult">Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, consectetur. Ab ipsa dolores asperiores quos!</p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="containerHeader">
+        <!--header section-->
+        <header class="header">
+          <div class="logo"><h3>BE<span>MOVIES</span></h3></div>
+          <!-- Menu -->
+          <ul>
+            <li><a class="search" href="#input">SEARCH</a></li> <!-- link to input-->
+            <li><a class="popular" href="#swiper_b">POPULAR</a></li> <!-- link to second slider window-->
+            <li><a class="genres" href="#swiper_c">GENRES</a></li> <!-- link to 3rd slider window-->
+            <li><a class="register" href="#">REGISTER</a></li> <!-- Link to pop up -->
+            <li><a class="sign_in" href="#">SIGN-IN</a></li> <!-- same link as above -->
+          </ul>
+        </header>
+      </div>
+      <!--Main section with 1 pop up slider and 2 informative sliders-->
+      <div class="hero">
+        <div class="containInput" id="containInput">
+          <!--search input-->
+          <input id="input" type="text" placeholder="Movie Title"/>
+          <button id="go"></button>
+        </div>
+        <!-- slider pop up -->
+        <div class="swiper" id="swiper_a">
+          <p id="searchInfo"></p>
+          <!-- Slider main container -->
+          <!-- Additional required wrapper -->
+          <div class="swiper-wrapper">
+            <!-- Slides -->            
+          </div>
+          <!-- If we need navigation buttons -->
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
+        <!-- second slider -->
+        <div id="middleSection">
+            <div class="swiper" id="swiper_b">
+              <p id="latest">Popular Releases</p>
+              <!-- Slider main container -->
+              <!-- Additional required wrapper -->
+              <div class="swiper-wrapper">
+              <!-- Slides -->
+              </div>
+              <!-- If we need navigation buttons -->
+              <div class="swiper-button-prev"></div>
+              <div class="swiper-button-next"></div>
+            </div>
+        </div>
+        <!-- Genres menu -->
+         <div class="containerOptions">
+        <div id="options">
+          <h2>Movies by genre</h2>
+          <div id="choiceListBox">
+            <ul id="choiceList">
+              <li id="comedy">Comedy</li>
+              <li id="drama">Drama</li>
+              <li id="action">Action</li>
+              <li id="romance">Romance</li>
+              <li id="fantasy">Fantasy</li>
+              <li id="animation">Animation</li>
+            </ul>
+            <hr>
+          </div>
+         
+         <!-- Add event to add textContent = choiceList -->
+      </div>
+        <!-- Menu slider-->
+        <div class="swiper" id="swiper_c">
+          <p id="optionChoice">Comedy</p>
+          <!-- Slider main container -->
+          <!-- Additional required wrapper -->
+          <div class="swiper-wrapper">
+            <!-- Slides -->
+          </div>
+          <!-- If we need navigation buttons -->
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
+        </div>
+      </div>
+    </div>
+      <!-- footer aka second header + copyright-->
+      <footer>
+        <div class="logo"><h3>BE<span>MOVIES</span></h3></div>
+          <!-- Menu -->
+          <ul>
+            <li><a class="search" href="#input">SEARCH</a></li> <!-- link to input-->
+            <li><a class="latest" href="#swiper_b">LATEST</a></li> <!-- link to second slider window-->
+            <li><a GENRES class="genres" href="#swiper_c">GENRES</a></li> <!-- link to 3rd slider window-->
+            <li><a REGISTER class="register" href="#">REGISTER</a></li> <!-- Link to pop up -->
+            <li><a SIGN-IN class="sign_in" href="#">SIGN-IN</a></li> <!-- same link as above -->
+          </ul>
+          <p>@2024 - All rights reserved</p>
+      </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

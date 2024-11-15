@@ -1,0 +1,527 @@
+@import url("https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  font-family: "Inria", sans-serif;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: rgb(46, 46, 46);
+}
+li {
+  list-style-type: none;
+}
+li:hover,
+li:active {
+  cursor: pointer;
+
+  transform: scale(0.9);
+}
+a {
+  text-decoration: none;
+  color: #fff;
+}
+li:active {
+  color: red;
+}
+
+ul {
+  display: flex;
+  gap: 10px;
+}
+.logo {
+  color: red;
+  font-size: 24px;
+  font-weight: 800px;
+}
+span {
+  color: white;
+}
+.containerHeader {
+  background-color: rgb(0, 0, 0);
+  width: 100vw;
+}
+.header {
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgb(0, 0, 0);
+  color: white;
+  margin: 0 auto;
+}
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.containInput {
+  position: relative;
+  border-radius: 10px;
+  display: flex;
+  margin: 100px auto;
+
+  overflow: hidden;
+}
+input {
+  font-size: 16px;
+  padding-left: 15px;
+}
+#go {
+  background-image: url("./ressources/Vector.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  color: #fff;
+  background-color: red;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#go:hover {
+  cursor: pointer;
+}
+#go:active {
+  cursor: pointer;
+  background-color: rgb(218, 90, 90);
+}
+
+#searchInfo {
+  display: none;
+  color: #fff;
+  position: absolute;
+  top: 0px;
+  left: 30px;
+}
+#middleSection {
+  height: 500px;
+  width: 100%;
+}
+#swiper_b {
+  position: relative;
+  height: 380px;
+  width: 80%;
+  margin: 50px auto;
+}
+#latest {
+  color: #fff;
+  position: absolute;
+  top: 0px;
+  left: 30px;
+}
+
+.containerOptions {
+  width: 80%;
+}
+#options {
+  margin-top: 50px;
+  height: 8.75rem;
+  width: 100%;
+
+  color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+}
+#options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+#options > h2 {
+  font-size: 16px;
+  margin-bottom: 50px;
+}
+#options > ul {
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+#swiper_c {
+  position: relative;
+  height: 380px;
+  width: 100%;
+  margin: 0px auto 50px auto;
+}
+#choiceListBox {
+  height: 40px;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+#choiceList {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+#choiceList > li:hover {
+  transform: scale(1.1);
+}
+
+hr {
+  width: 100%;
+}
+#optionChoice {
+  /* Add event on click (list items) to show textContent = item*/
+  position: absolute;
+  top: 0px;
+  left: 30px;
+  color: #fff;
+}
+footer {
+  padding: 80px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgb(0, 0, 0);
+  color: white;
+  margin: 0 auto;
+}
+footer p {
+  opacity: 0.3;
+}
+.swiper {
+  height: 21.875rem;
+  cursor: pointer;
+}
+#swiper_a {
+  display: none; /* Initially hidden */
+  height: 380px;
+  width: 80%;
+  margin: 50px auto;
+}
+.swiper-slide img {
+  max-width: 232px;
+  height: 350px;
+  border-radius: 8px;
+  transition: opacity 0.3 ease;
+  object-fit: fill;
+}
+.swiper-slide {
+  max-width: 232px;
+  height: 350px;
+  position: relative;
+  overflow: hidden;
+}
+#swiper_c .swiper-slide {
+  margin-top: 20px;
+}
+#swiper_b .swiper-slide {
+  margin-top: 20px;
+}
+#swiper_a .swiper-slide {
+  margin-top: 20px;
+}
+.swiper-wrapper {
+  margin: 0px 30px;
+  display: flex;
+  justify-content: space-around;
+}
+.swiper-button-next {
+  background-image: url("./ressources/next.png");
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: center;
+}
+.swiper-button-prev {
+  background-image: url("./ressources/next.png");
+  transform: rotate(180deg);
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: center;
+}
+.swiper-button-next::after {
+  display: none;
+}
+
+.swiper-button-prev::after {
+  display: none;
+}
+.modal {
+  position: relative;
+}
+#modal_login {
+  position: fixed;
+  z-index: 2;
+  right: 100;
+  top: 100;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: none; /* to change into flex after addEventListener*/
+  align-items: center;
+  justify-content: center;
+}
+.modalContainer {
+  color: #fff;
+  background-color: black;
+  height: 37.5rem;
+  width: 25.625rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  position: relative;
+}
+.close {
+  opacity: 0.5;
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  transition: 0.3s ease;
+}
+.close:hover {
+  opacity: 1;
+  cursor: pointer;
+
+  transform: scale(0.9);
+}
+.modButtons {
+  margin-top: 60px;
+  width: 18.75rem;
+  height: 3.4375rem;
+  border: 3px solid #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 50px;
+}
+.signupButton {
+  height: 50px;
+  width: 50%;
+  background-color: black;
+  color: #fff;
+  font-family: "Inria", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+}
+.loginButton {
+  height: 50px;
+  width: 50%;
+  background-color: red;
+  color: #fff;
+  font-family: "Inria", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+}
+.inputModal {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 25px;
+}
+.checkBox {
+  display: flex;
+}
+.member {
+  display: flex;
+}
+#forgotten {
+  text-align: left;
+}
+.member {
+  margin-bottom: 120px;
+  text-align: left;
+}
+#username,
+#password {
+  height: 45px;
+  width: 300px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+}
+#longLogin {
+  width: 300px;
+  border-radius: 10px;
+  margin-bottom: 35px;
+}
+#links {
+  width: 300px;
+  text-align: left;
+}
+#forgotten {
+  margin-bottom: 25px;
+  color: red;
+}
+.member {
+  margin-top: 20px;
+}
+#signupLink {
+  color: red;
+  margin-left: 15px;
+}
+#modal_info {
+  position: fixed;
+  z-index: 2;
+  right: 100;
+  top: 100;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: none; /* to change into flex after addEventListener*/
+  align-items: center;
+  justify-content: center;
+}
+.containerInfo {
+  height: 540px;
+  width: 750px;
+  background-color: #000;
+  color: #fff;
+  display: flex;
+  position: relative;
+}
+#imgInfo {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#imgInfoPoster {
+  max-width: 232px;
+  height: 350px;
+  border: 1px solid #fff;
+}
+.containerText {
+  width: 50%;
+  padding: 100px 20px 10px 50px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+#modalInfoTitle {
+  font-size: 24px;
+  color: red;
+}
+#modalInfoRelease {
+  font-size: 14px;
+  color: #e9e9e9;
+  margin-bottom: 10px;
+}
+#modalInfoRating {
+  display: flex;
+  color: red;
+  margin-bottom: 10px;
+}
+.redStar {
+  background-image: url("./ressources/comradStar.png");
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: center;
+  height: 21px;
+  width: 21px;
+}
+#rateModal {
+  padding-left: 10px;
+  font-size: 24px;
+}
+#modalGenre {
+  font-size: 14px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+#synopsis {
+  font-size: 14px;
+  opacity: 0.9;
+  margin-bottom: 10px;
+}
+#modalCast {
+  display: flex;
+  font-size: 15px;
+}
+#castFetch {
+  padding-left: 25px;
+  padding-right: 35px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+#close {
+  background-image: url("./ressources/cross.png"); /* single close button to close the modal pop-ups (same in login and info!)*/
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: center;
+  height: 21px;
+  width: 21px;
+}
+#close_2 {
+  background-image: url("./ressources/cross.png"); /* single close button to close the modal pop-ups (same in login and info!)*/
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: center;
+  height: 21px;
+  width: 21px;
+}
+/* Overlay for movie info */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.7); /* Dark semi-transparent overlay */
+  color: white;
+  text-align: center;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Hover effect to reveal overlay */
+.swiper-slide:hover img {
+  opacity: 0.3;
+}
+
+.swiper-slide:hover .overlay {
+  opacity: 1;
+}
+
+/* Movie info styling in overlay */
+.overlay h2 {
+  font-size: 1.25rem;
+  margin: 20px 0 30px 0;
+}
+.overlay h3 {
+  font-size: 1.25rem;
+  margin-bottom: 30px;
+}
+.overlayReleaseYear {
+  opacity: 0.5;
+}
+.overlayGenres {
+  opacity: 0.5;
+}
+.overlay h4 {
+  font-size: 0.875rem;
+  margin-bottom: 20px;
+}
+.overlay .redStar {
+  align-items: center;
+  translate: 12px;
+  margin-bottom: 20px;
+}
+.overlay p {
+  font-size: 32px;
+  font-weight: bold;
+  color: red;
+  text-align: center;
+}
+.overlayTitle {
+  margin: 20px;
+  font-size: 20px;
+}
