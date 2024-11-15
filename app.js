@@ -1,5 +1,5 @@
 //api key variable and base url to TMDB
-const API_KEY = "11e5987bce6cf2fdee31f834ddb0545f";
+const theKey = "11e5987bce6cf2fdee31f834ddb0545f";
 const API_URL = "https://api.themoviedb.org/3";
 
 //3 swipers w/ unique ids
@@ -103,7 +103,8 @@ const swiper_c = new Swiper("#swiper_c", {
     prevEl: ".swiper-button-prev",
   },
 });
-//library of genres by id
+
+//library of genres by id (less troublesome to create a collection)
 function getGenreName(id) {
   const genres = {
     35: "Comedy",
@@ -126,21 +127,21 @@ function getGenreName(id) {
     10752: "War",
     37: "Western",
   };
-  return genres[id] || "Unknown Genre";
+  return genres[id] || "Unknown Genre"; //listed genre or in case its not in the list ; "unknown"
 }
-// Function to fetch popular movies
+// Function to fetch popular (second choice after release date gave me errors) movies (swiper_b)
 const fetchPopularMovies = async () => {
   const response = await fetch(
-    `${API_URL}/movie/popular?api_key=${API_KEY}&language=en-US&page=1&include_adult=falsesort_by=popularity.desc`
+    `${API_URL}/movie/popular?api_key=${theKey}&language=en-US&page=1&include_adult=falsesort_by=popularity.desc`
   );
   const data = await response.json();
   populateSwiper(swiper_b, data.results);
 };
 
-// Function to fetch movies by genre
+// Function to fetch movies by genre (swiper_c)
 const fetchMoviesByGenre = async (genreId) => {
   const response = await fetch(
-    `${API_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&language=en-US&page=1&include_adult=falsesort_by=popularity.desc`
+    `${API_URL}/discover/movie?api_key=${theKey}&with_genres=${genreId}&language=en-US&page=1&include_adult=falsesort_by=popularity.desc`
   );
   const data = await response.json();
   populateSwiper(swiper_c, data.results);
@@ -149,7 +150,7 @@ const fetchMoviesByGenre = async (genreId) => {
 // Function to fetch movies by search query
 const fetchMoviesBySearch = async (query) => {
   const response = await fetch(
-    `${API_URL}/search/movie?query=${query}&api_key=${API_KEY}&language=en-US&page=1&include_adult=falsesort_by=popularity.desc`
+    `${API_URL}/search/movie?query=${query}&api_key=${theKey}&language=en-US&page=1&include_adult=falsesort_by=popularity.desc`
   );
   const data = await response.json();
   populateSwiper(swiper_a, data.results);
@@ -167,25 +168,26 @@ const populateSwiper = (swiper, movies) => {
   swiperWrapper.innerHTML = ""; // Clear existing slides
 
   movies.forEach((movie) => {
+    //create a slide per movie
     const slide = document.createElement("div");
     slide.classList.add("swiper-slide");
 
     // Extract year from release date
     const releaseYear = movie.release_date
-      ? new Date(movie.release_date).getFullYear()
+      ? new Date(movie.release_date).getFullYear() // release year in format YYYYMMDD just need the year
       : "Unknown";
 
     // Retrieve all genres for the movie
     const genreNames =
-      movie.genre_ids.length > 0
-        ? movie.genre_ids.map((id) => getGenreName(id)).join("/ ")
-        : "Unknown Genre";
+      movie.genre_ids.length > 0 //get all ids for genre per movie
+        ? movie.genre_ids.map((id) => getGenreName(id)).join(" / ") // if several genres, get the genre related to the id in an array, then join them with " / " in between
+        : "Unknown Genre"; //if no genre
 
     // Get rating
     const rating = movie.vote_average
-      ? `${movie.vote_average.toFixed(1)}`
-      : "N/A";
-
+      ? `${movie.vote_average.toFixed(1)}` // rating was giving 3 or 4 numbers after comma so toFixed to show only 1
+      : "N/A"; // if no rating
+    //create an overlayer on top of the images
     slide.innerHTML = `
       <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}" />
       <div class="overlay">
@@ -224,7 +226,7 @@ document.getElementById("go").addEventListener("click", () => {
   inputElement.value = ""; //after the query, clears the input area
 });
 
-// On page load, fetch popular movies and comedy genre
+// On page load, fetch popular movies and comedy genre to have it populated
 window.onload = () => {
   fetchPopularMovies();
   fetchMoviesByGenre(35); // Genre ID for Comedy
@@ -239,7 +241,7 @@ const optionChoice = document.querySelector("#optionChoice");
 
 comedy.addEventListener("click", () => {
   fetchMoviesByGenre(35);
-  optionChoice.textContent = "Comedy";
+  optionChoice.textContent = "Comedy"; // add text to specific clicked genre
 });
 drama.addEventListener("click", () => {
   fetchMoviesByGenre(18);
@@ -274,13 +276,13 @@ sign_in.addEventListener("click", () => {
   modal_login.style.display = "flex";
 });
 close.addEventListener("click", () => {
-  modal_login.style.display = "none";
+  modal_login.style.display = "none"; //close login with the cross logo
 });
 
 // Function to fetch movie details and display them in the modal
 const fetchMovieDetails = async (movieId) => {
   const response = await fetch(
-    `${API_URL}/movie/${movieId}?api_key=${API_KEY}&language=en-US`
+    `${API_URL}/movie/${movieId}?api_key=${theKey}&language=en-US`
   );
   const data = await response.json();
 
@@ -312,7 +314,7 @@ close_2.addEventListener("click", () => {
 // Function to fetch and display cast information
 const fetchMovieCast = async (movieId) => {
   const response = await fetch(
-    `${API_URL}/movie/${movieId}/credits?api_key=${API_KEY}&language=en-US`
+    `${API_URL}/movie/${movieId}/credits?api_key=${theKey}&language=en-US`
   );
   const data = await response.json();
 
