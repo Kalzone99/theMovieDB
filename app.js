@@ -1,6 +1,12 @@
-//api key variable and base url to TMDB
-const theKey = "to be added";
+//token variables and base url to TMDB
+
+const API_token =
+  "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMWU1OTg3YmNlNmNmMmZkZWUzMWY4MzRkZGIwNTQ1ZiIsIm5iZiI6MTczMDcyODc5MC40MDIzNTQyLCJzdWIiOiI2NzI4YzlmNmMwOTAxMDk1ODBmYTA3YzciLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.yghDxCFESVUKXASCsVvrcUB172vYqD_H0xzzA8KMQ5g";
 const API_URL = "https://api.themoviedb.org/3";
+
+const headers = {
+  Authorization: `Bearer ${API_token}`,
+};
 
 //3 swipers w/ unique ids
 // Initialize Swiper sliders
@@ -132,8 +138,13 @@ function getGenreName(id) {
 // Function to fetch popular (second choice after release date gave me errors) movies (swiper_b)
 const fetchPopularMovies = async () => {
   const response = await fetch(
-    `${API_URL}/movie/popular?api_key=${theKey}&language=en-US&page=1&include_adult=falsesort_by=popularity.desc`
+    `${API_URL}/movie/popular?&language=en-US&page=1&include_adult=falsesort_by=popularity.desc`,
+    { headers }
   );
+  if (!response.ok) {
+    console.error("Failed to fetch movies by popularity:", response.statusText);
+    return;
+  }
   const data = await response.json();
   populateSwiper(swiper_b, data.results);
 };
@@ -141,23 +152,39 @@ const fetchPopularMovies = async () => {
 // Function to fetch movies by genre (swiper_c)
 const fetchMoviesByGenre = async (genreId) => {
   const response = await fetch(
-    `${API_URL}/discover/movie?api_key=${theKey}&with_genres=${genreId}&language=en-US&page=1&include_adult=falsesort_by=popularity.desc`
+    `${API_URL}/discover/movie?with_genres=${genreId}&language=en-US&page=1&include_adult=false&sort_by=popularity.desc`,
+    { headers }
   );
+
+  if (!response.ok) {
+    console.error("Failed to fetch movies by genre:", response.statusText);
+    return;
+  }
+
   const data = await response.json();
-  populateSwiper(swiper_c, data.results);
+  populateSwiper(swiper_c, data.results); // Use your swiper population function
 };
 
 // Function to fetch movies by search query
 const fetchMoviesBySearch = async (query) => {
   const response = await fetch(
-    `${API_URL}/search/movie?query=${query}&api_key=${theKey}&language=en-US&page=1&include_adult=falsesort_by=popularity.desc`
+    `${API_URL}/search/movie?query=${query}&language=en-US&page=1&include_adult=falsesort_by=popularity.desc`,
+    { headers }
   );
+  if (!response.ok) {
+    console.error(
+      `Failed to fetch movies by Search = ${query}:`,
+      response.statusText
+    );
+    return;
+  }
+
   const data = await response.json();
   populateSwiper(swiper_a, data.results);
   // Show swiper_a after search
   document.getElementById("swiper_a").style.display = "block";
 
-  // Update the #searchInfo with the search results info
+  // Update the #searchInfo text with the search results info
   document.getElementById("searchInfo").textContent = `Results for "${query}"`;
   document.getElementById("searchInfo").style.display = "block";
 };
@@ -281,9 +308,13 @@ close.addEventListener("click", () => {
 
 // Function to fetch movie details and display them in the modal
 const fetchMovieDetails = async (movieId) => {
-  const response = await fetch(
-    `${API_URL}/movie/${movieId}?api_key=${theKey}&language=en-US`
-  );
+  const response = await fetch(`${API_URL}/movie/${movieId}&language=en-US`, {
+    headers,
+  });
+  if (!response.ok) {
+    console.error("Failed to fetch movies to display:", response.statusText);
+    return;
+  }
   const data = await response.json();
 
   // Populate modal with movie details
@@ -301,28 +332,29 @@ const fetchMovieDetails = async (movieId) => {
     .join(", ");
   document.getElementById("synopsis").textContent = data.overview;
 
-  // Fetch and display cast information
   fetchMovieCast(movieId);
 
-  // Show modal
   document.getElementById("modal_info").style.display = "flex";
 };
 close_2.addEventListener("click", () => {
   modal_info.style.display = "none";
 });
 
-// Function to fetch and display cast information
 const fetchMovieCast = async (movieId) => {
   const response = await fetch(
-    `${API_URL}/movie/${movieId}/credits?api_key=${theKey}&language=en-US`
+    `${API_URL}/movie/${movieId}/credits?&language=en-US`,
+    { headers }
   );
+  if (!response.ok) {
+    console.error("Failed to fetch movie's cast:", response.statusText);
+    return;
+  }
   const data = await response.json();
 
-  // Display the top 5 cast members
   const cast = data.cast
-    .slice(0, 5)
-    .map((actor) => actor.name)
-    .join(", ");
+    .slice(0, 5) // get the first 5 indexes, goes by main actors
+    .map((actor) => actor.name) // map in array
+    .join(", "); // join them to display in target pop up modal
   document.getElementById("castFetchResult").textContent =
     cast || "Cast information not available.";
 };
