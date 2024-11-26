@@ -138,7 +138,7 @@ function getGenreName(id) {
 // Function to fetch popular (second choice after release date gave me errors) movies (swiper_b)
 const fetchPopularMovies = async () => {
   const response = await fetch(
-    `${API_URL}/movie/popular?&language=en-US&page=1&include_adult=falsesort_by=popularity.desc`,
+    `${API_URL}/movie/popular?&language=en-US&page=1&include_adult=falsesort_by=popularity.desc`, //from postman
     { headers }
   );
   if (!response.ok) {
@@ -291,19 +291,28 @@ animation.addEventListener("click", () => {
   optionChoice.textContent = "Animation";
 });
 const modal_login = document.querySelector("#modal_login");
-const register = document.querySelector(".register");
-const sign_in = document.querySelector(".sign_in");
+const registerButtons = document.querySelectorAll(".register");
+const signinButtons = document.querySelectorAll(".sign_in");
 const close = document.querySelector("#close");
 const close_2 = document.querySelector("#close_2");
 
-register.addEventListener("click", () => {
-  modal_login.style.display = "flex";
+registerButtons.forEach((register) => {
+  //header and footer registers
+  register.addEventListener("click", () => {
+    modal_login.style.display = "flex";
+  });
 });
-sign_in.addEventListener("click", () => {
-  modal_login.style.display = "flex";
+signinButtons.forEach((sign_in) => {
+  //header and footer also
+  sign_in.addEventListener("click", () => {
+    modal_login.style.display = "flex";
+  });
 });
 close.addEventListener("click", () => {
   modal_login.style.display = "none"; //close login with the cross logo
+});
+close_2.addEventListener("click", () => {
+  modal_info.style.display = "none";
 });
 
 // Function to fetch movie details and display them in the modal
@@ -317,18 +326,18 @@ const fetchMovieDetails = async (movieId) => {
   }
   const data = await response.json();
 
-  // Populate modal with movie details
+  // Populate modal with movie details, while the modal itself is already fully constructed
   document.getElementById(
     "imgInfoPoster"
   ).src = `https://image.tmdb.org/t/p/w500${data.poster_path}`;
   document.getElementById("modalInfoTitle").textContent = data.title;
   document.getElementById("modalInfoRelease").textContent = new Date(
     data.release_date
-  ).getFullYear();
+  ).getFullYear(); // only the year
   document.getElementById("rateModal").textContent =
-    data.vote_average.toFixed(1);
+    data.vote_average.toFixed(1); //rating with 1 decimal
   document.getElementById("modalGenre").textContent = data.genres
-    .map((genre) => genre.name)
+    .map((genre) => genre.name) //from genre id get the name
     .join(", ");
   document.getElementById("synopsis").textContent = data.overview;
 
@@ -336,13 +345,11 @@ const fetchMovieDetails = async (movieId) => {
 
   document.getElementById("modal_info").style.display = "flex";
 };
-close_2.addEventListener("click", () => {
-  modal_info.style.display = "none";
-});
 
 const fetchMovieCast = async (movieId) => {
+  //fetching cast by movie id
   const response = await fetch(
-    `${API_URL}/movie/${movieId}/credits?&language=en-US`,
+    `${API_URL}/movie/${movieId}/credits?&language=en-US`, //credits being the cast language has been given by postman, i kept only english spoken movies or subs
     { headers }
   );
   if (!response.ok) {
