@@ -20,8 +20,11 @@ li {
 li:hover,
 li:active {
   cursor: pointer;
-
   transform: scale(0.9);
+}
+img {
+  width: 230px;
+  height: 350px;
 }
 a {
   text-decoration: none;
