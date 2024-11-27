@@ -1,3 +1,4 @@
+////////////////////////////////////////Token and Base API////////////////////////////
 //token variables and base url to TMDB
 
 const API_token =
@@ -7,7 +8,7 @@ const API_URL = "https://api.themoviedb.org/3";
 const headers = {
   Authorization: `Bearer ${API_token}`,
 };
-
+///////////////////////////////////////SWIPER parameters/////////////////////////////
 //3 swipers w/ unique ids
 // Initialize Swiper sliders
 const swiper_a = new Swiper("#swiper_a", {
@@ -79,7 +80,7 @@ const swiper_b = new Swiper("#swiper_b", {
 
 const swiper_c = new Swiper("#swiper_c", {
   // Default parameters
-  slidesPerView: 1,
+  slidesPerView: "auto",
   spaceBetween: 10,
   // Responsive breakpoints
   breakpoints: {
@@ -109,6 +110,7 @@ const swiper_c = new Swiper("#swiper_c", {
     prevEl: ".swiper-button-prev",
   },
 });
+/////////////////////////////////////Library for genres given by the API and created for ease of use/////////////////////////////
 
 //library of genres by id (less troublesome to create a collection)
 function getGenreName(id) {
@@ -135,20 +137,19 @@ function getGenreName(id) {
   };
   return genres[id] || "Unknown Genre"; //listed genre or in case its not in the list ; "unknown"
 }
+
+/////////////////////////////////////////////////Functions//////////////////////////////////////
 // Function to fetch popular (second choice after release date gave me errors) movies (swiper_b)
 const fetchPopularMovies = async () => {
   const response = await fetch(
     `${API_URL}/movie/popular?&language=en-US&page=1&include_adult=falsesort_by=popularity.desc`, //from postman
     { headers }
   );
-  if (!response.ok) {
-    console.error("Failed to fetch movies by popularity:", response.statusText);
-    return;
-  }
+
   const data = await response.json();
   populateSwiper(swiper_b, data.results);
 };
-
+///////////////////////////////////////////////////////////////////////////////////////////////
 // Function to fetch movies by genre (swiper_c)
 const fetchMoviesByGenre = async (genreId) => {
   const response = await fetch(
@@ -156,28 +157,16 @@ const fetchMoviesByGenre = async (genreId) => {
     { headers }
   );
 
-  if (!response.ok) {
-    console.error("Failed to fetch movies by genre:", response.statusText);
-    return;
-  }
-
   const data = await response.json();
   populateSwiper(swiper_c, data.results); // Use your swiper population function
 };
-
+///////////////////////////////////////////////////////////////////////////////////////////////
 // Function to fetch movies by search query
 const fetchMoviesBySearch = async (query) => {
   const response = await fetch(
     `${API_URL}/search/movie?query=${query}&language=en-US&page=1&include_adult=falsesort_by=popularity.desc`,
     { headers }
   );
-  if (!response.ok) {
-    console.error(
-      `Failed to fetch movies by Search = ${query}:`,
-      response.statusText
-    );
-    return;
-  }
 
   const data = await response.json();
   populateSwiper(swiper_a, data.results);
@@ -188,21 +177,21 @@ const fetchMoviesBySearch = async (query) => {
   document.getElementById("searchInfo").textContent = `Results for "${query}"`;
   document.getElementById("searchInfo").style.display = "block";
 };
-
+//////////////////////////////////////////////////////////////////////////////////////////////
+// Function to populate the swipers with posters and data
 // Populate Swiper with movie posters and overlays, with click event to open modal
+// takes 2 parameters: the target swiper and the data given at the fetch for every movie : hence the data.result in the fetch popular, search and genre
 const populateSwiper = (swiper, movies) => {
   const swiperWrapper = swiper.el.querySelector(".swiper-wrapper");
-  swiperWrapper.innerHTML = ""; // Clear existing slides
+  swiperWrapper.innerHTML = ""; // Clear existing slides, refresh
 
   movies.forEach((movie) => {
     //create a slide per movie
-    const slide = document.createElement("div");
+    const slide = document.createElement("div"); // creation of a div in the swiper-slide area targetted by one of the 3 fetches of movies (not the cast)
     slide.classList.add("swiper-slide");
 
     // Extract year from release date
-    const releaseYear = movie.release_date
-      ? new Date(movie.release_date).getFullYear() // release year in format YYYYMMDD just need the year
-      : "Unknown";
+    const releaseYear = movie.release_date.slice(0, 4); // format YYYYMMDD... slice 0->4 to get full year
 
     // Retrieve all genres for the movie
     const genreNames =
@@ -211,31 +200,31 @@ const populateSwiper = (swiper, movies) => {
         : "Unknown Genre"; //if no genre
 
     // Get rating
-    const rating = movie.vote_average
-      ? `${movie.vote_average.toFixed(1)}` // rating was giving 3 or 4 numbers after comma so toFixed to show only 1
-      : "N/A"; // if no rating
-    //create an overlayer on top of the images
+    const rating = movie.vote_average.toFixed(1); // to get 1 number after the comma
+    //creating the overlay for each slide parameters of style in css
     slide.innerHTML = `
       <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}" />
       <div class="overlay">
         <h2 class="overlayTitle">${movie.title}</h2>
         <h3 class="overlayReleaseYear">${releaseYear}</h3>
         <h4 class="overlayGenres">${genreNames}</h4>
-        <div class="redStar"></div>
+        <div class="redStar"></div> 
         <p id="overlayRating">${rating}</p>
       </div>
     `;
 
-    // Add click event to open modal with movie details
+    // Add click event to open modal with movie details for every slide
     slide.addEventListener("click", () => {
       fetchMovieDetails(movie.id);
     });
 
-    swiperWrapper.appendChild(slide);
+    swiperWrapper.appendChild(slide); //the .swiper-wrapper in html "hosts" the slides hence they get created, and appended there
   });
 
-  swiper.update(); // Refresh the swiper after adding slides
+  swiper.update(); // Refresh the swiper after adding slides, this wasn't
 };
+
+//////////////////////////////////////Event Listeners Various//////////////////////////////////
 
 // Close the modal when the close button is clicked
 document.getElementById("close").addEventListener("click", () => {
@@ -258,6 +247,7 @@ window.onload = () => {
   fetchPopularMovies();
   fetchMoviesByGenre(35); // Genre ID for Comedy
 };
+//3rd part selection section
 const comedy = document.querySelector("#comedy");
 const drama = document.querySelector("#drama");
 const action = document.querySelector("#action");
@@ -290,6 +280,7 @@ animation.addEventListener("click", () => {
   fetchMoviesByGenre(16);
   optionChoice.textContent = "Animation";
 });
+//register and sign in modal
 const modal_login = document.querySelector("#modal_login");
 const registerButtons = document.querySelectorAll(".register");
 const signinButtons = document.querySelectorAll(".sign_in");
@@ -314,48 +305,40 @@ close.addEventListener("click", () => {
 close_2.addEventListener("click", () => {
   modal_info.style.display = "none";
 });
-
+/////////////////////////////////////////////////Modal movie function////////////////////////////////////////
 // Function to fetch movie details and display them in the modal
 const fetchMovieDetails = async (movieId) => {
   const response = await fetch(`${API_URL}/movie/${movieId}&language=en-US`, {
     headers,
   });
-  if (!response.ok) {
-    console.error("Failed to fetch movies to display:", response.statusText);
-    return;
-  }
+
   const data = await response.json();
 
   // Populate modal with movie details, while the modal itself is already fully constructed
   document.getElementById(
     "imgInfoPoster"
-  ).src = `https://image.tmdb.org/t/p/w500${data.poster_path}`;
-  document.getElementById("modalInfoTitle").textContent = data.title;
-  document.getElementById("modalInfoRelease").textContent = new Date(
-    data.release_date
-  ).getFullYear(); // only the year
+  ).src = `https://image.tmdb.org/t/p/w500${data.poster_path}`; //from response get the data @poster_path
+  document.getElementById("modalInfoTitle").textContent = data.title; //get the title from the data
+  document.getElementById("modalInfoRelease").textContent =
+    data.release_date.slice(0, 4); // get the date YYYY from YYYYMMDD
   document.getElementById("rateModal").textContent =
     data.vote_average.toFixed(1); //rating with 1 decimal
   document.getElementById("modalGenre").textContent = data.genres
-    .map((genre) => genre.name) //from genre id get the name
+    .map((genre) => genre.name) //from genre id get the name of the genre see library
     .join(", ");
   document.getElementById("synopsis").textContent = data.overview;
 
-  fetchMovieCast(movieId);
+  fetchMovieCast(movieId); //function called to get the cast from movieID endpoints
 
-  document.getElementById("modal_info").style.display = "flex";
+  document.getElementById("modal_info").style.display = "flex"; // after populating (apparently not, the cast takes a bit of time to load up), make the modal appear
 };
-
+//function to get the cast of actors
 const fetchMovieCast = async (movieId) => {
   //fetching cast by movie id
   const response = await fetch(
     `${API_URL}/movie/${movieId}/credits?&language=en-US`, //credits being the cast language has been given by postman, i kept only english spoken movies or subs
     { headers }
   );
-  if (!response.ok) {
-    console.error("Failed to fetch movie's cast:", response.statusText);
-    return;
-  }
   const data = await response.json();
 
   const cast = data.cast
@@ -363,5 +346,5 @@ const fetchMovieCast = async (movieId) => {
     .map((actor) => actor.name) // map in array
     .join(", "); // join them to display in target pop up modal
   document.getElementById("castFetchResult").textContent =
-    cast || "Cast information not available.";
+    cast || "Cast information not available."; // takes 5 main actors and add text separated by a comma, if no actors gives the default negative
 };
